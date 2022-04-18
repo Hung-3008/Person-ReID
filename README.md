@@ -1,9 +1,10 @@
 <h1 align="center"> Pytorch ReID </h1>
 <h2 align="center"> Strong, Small, Friendly </h2>
 
-
-
-A tiny, friendly, strong baseline code for Object-reID (based on [pytorch](https://pytorch.org)) since 2017.
+## Students
+|Nguyễn Thái Bình| Bùi Văn Hưng| Đặng Lê Minh|
+|----------------|-------------|-------------|
+|19127103|19127414|19127044|
 
 - **Strong.** It is consistent with the new baseline result in several top-conference works, e.g., [Joint Discriminative and Generative Learning for Person Re-identification(CVPR19)](https://arxiv.org/abs/1904.07223), [Beyond Part Models: Person Retrieval with Refined Part Pooling(ECCV18)](https://arxiv.org/abs/1711.09349), [Camera Style Adaptation for Person Re-identification(CVPR18)](https://arxiv.org/abs/1711.10295). We arrived Rank@1=88.24%, mAP=70.68% only with softmax loss. 
 
@@ -14,9 +15,9 @@ Besides, if you are new to object re-ID, you may check out our **[Tutorial](http
 ![](https://github.com/layumi/Person_reID_baseline_pytorch/blob/master/show.png)
 ![](https://github.com/layumi/Person_reID_baseline_pytorch/blob/master/show-cub.jpg)
 
+
+
 ## Table of contents
-* [Features](#features)
-* [Some News](#some-news)
 * [Trained Model](#trained-model)
 * [Prerequisites](#prerequisites)
 * [Getting Started](#getting-started)
@@ -25,77 +26,14 @@ Besides, if you are new to object re-ID, you may check out our **[Tutorial](http
     * [Train](#train)
     * [Test](#test)
     * [Evaluation](#evaluation)
-* [Tips for training with other datasets](#tips)
-* [How to Cite?](#citation)
-* [Related Repos](#related-repos)
 
-## Features
-Now we have supported:
-- Running the code on Google Colab with Free GPU. Check [Here](https://github.com/layumi/Person_reID_baseline_pytorch/tree/master/colab) (Thanks to @ronghao233)
-- [DG-Market](https://github.com/NVlabs/DG-Net#dg-market) (10x Large Synethic Dataset from Market **CVPR 2019 Oral**)
-- [Swin Transformer](https://github.com/microsoft/Swin-Transformer) / [EfficientNet](https://github.com/lukemelas/EfficientNet-PyTorch) / [HRNet](https://github.com/HRNet)
-- Circle Loss, Triplet Loss, Contrastive Loss, Sphere Loss, Lifted Loss, Arcface, Cosface  and Instance Loss
-- Float16 to save GPU memory based on [apex](https://github.com/NVIDIA/apex)
-- Part-based Convolutional Baseline(PCB)
-- Multiple Query Evaluation
-- Re-Ranking ([GPU Version](https://github.com/layumi/Person_reID_baseline_pytorch/tree/master/GPU-Re-Ranking))
-- Random Erasing
-- ResNet/ResNet-ibn/DenseNet
-- Visualize Training Curves
-- Visualize Ranking Result
-- [Visualize Heatmap](https://github.com/layumi/Person_reID_baseline_pytorch/blob/dev/visual_heatmap.py)
-- Linear Warm-up 
 
-Here we provide hyperparameters and architectures, that were used to generate the result. 
+Hyperparameters and architectures, that were used to generate the result. 
 Some of them (i.e. learning rate) are far from optimal. Do not hesitate to change them and see the effect. 
 
 P.S. With similar structure, we arrived **Rank@1=87.74% mAP=69.46%** with [Matconvnet](http://www.vlfeat.org/matconvnet/). (batchsize=8, dropout=0.75) 
 You may refer to [Here](https://github.com/layumi/Person_reID_baseline_matconvnet).
 Different framework need to be tuned in a different way.
-
-
-<img width="250" height="150" src="https://github.com/layumi/Person_reID_baseline_pytorch/blob/master/pdf/3D-demo.png"/>
-
-
-**30 April 2020** We have applied this code to the [AICity Challenge 2020](https://www.aicitychallenge.org/),  yielding the 1st Place Submission to the re-id track :red_car:. Check out [here](https://github.com/layumi/AICIty-reID-2020).
-
-**01 March 2020** We release one new image retrieval dataset, called [University-1652](https://github.com/layumi/University1652-Baseline), for drone-view target localization and drone navigation :helicopter:. It has a similar setting with the person re-ID. You are welcomed to check out it.
-</details>
-
-<details>
- <summary><b>
-  2019 News
- </b></summary>
-   
-**07 July 2019:** I added some new functions, such as `--resume`, auto-augmentation policy, acos loss, into [developing thread](https://github.com/layumi/Person_reID_baseline_pytorch/tree/dev) and rewrite the `save` and `load` functions. I haven't tested the functions throughly. Some new functions are worthy of having a try. If you are first to this repo, I suggest you stay with the master thread.
-
-**01 July 2019:** [My CVPR19 Paper](https://arxiv.org/abs/1904.07223) is online. It is based on this baseline repo as teacher model to provide pseudo label for the generated images to train a better student model. You are welcomed to check out the opensource code at [here](https://github.com/NVlabs/DG-Net).
-
-**03 Jun 2019:** Testing with multiple-scale inputs is added. You can use `--ms 1,0.9` when extracting the feature. It could slightly improve the final result.
-
-**20 May 2019:** Linear Warm Up is added. You also can set warm-up the first K epoch by `--warm_epoch K`. If K <=0, there will be no warm-up.
-
- </details>
-   
-<details>
- <summary><b>
-  2018 & 2017 News
- </b></summary> 
-   
-**What's new:** FP16 has been added. It can be used by simply added `--fp16`. You need to install [apex](https://github.com/NVIDIA/apex) and update your pytorch to 1.0. 
-
-Float16 could save about 50% GPU memory usage without accuracy drop. **Our baseline could be trained with only 2GB GPU memory.** 
-```bash
-python train.py --fp16
-```
-**What's new:** Visualizing ranking result is added.
-```bash
-python prepare.py
-python train.py
-python test.py
-python demo.py --query_index 777
-```
-
 
    
 ## Trained Model
@@ -249,45 +187,6 @@ python evaluate_rerank.py
 **It may take more than 10G Memory to run.** So run it on a powerful machine if possible. 
 
 It will output Rank@1, Rank@5, Rank@10 and mAP results.
-
-### Tips
-Notes the format of the camera id and the number of cameras.
-
-For some dataset, e.g., MSMT17, there are more than 10 cameras. You need to modify the `prepare.py` and `test.py` to read the double-digit camera ID.
-
-For some vehicle re-ID datasets. e.g. VeRi, you also need to modify the `prepare.py` and `test.py`.  It has different naming rules.
-https://github.com/layumi/Person_reID_baseline_pytorch/issues/107 (Sorry. It is in Chinese)
-
-
-## Citation
-The following paper uses and reports the result of the baseline model. You may cite it in your paper.
-```bib
-@article{zheng2019joint,
-  title={Joint discriminative and generative learning for person re-identification},
-  author={Zheng, Zhedong and Yang, Xiaodong and Yu, Zhiding and Zheng, Liang and Yang, Yi and Kautz, Jan},
-  journal={IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
-  year={2019}
-}
-```
-
-The following papers may be the first two to use the bottleneck baseline. You may cite them in your paper.
-```bib
-@article{DBLP:journals/corr/SunZDW17,
-  author    = {Yifan Sun and
-               Liang Zheng and
-               Weijian Deng and
-               Shengjin Wang},
-  title     = {SVDNet for Pedestrian Retrieval},
-  booktitle   = {ICCV},
-  year      = {2017},
-}
-
-@article{hermans2017defense,
-  title={In Defense of the Triplet Loss for Person Re-Identification},
-  author={Hermans, Alexander and Beyer, Lucas and Leibe, Bastian},
-  journal={arXiv preprint arXiv:1703.07737},
-  year={2017}
-}
 ```
 
 Basic Model
