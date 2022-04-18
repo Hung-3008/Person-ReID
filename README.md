@@ -1,10 +1,7 @@
 <h1 align="center"> Pytorch ReID </h1>
 <h2 align="center"> Strong, Small, Friendly </h2>
 
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/layumi/Person_reID_baseline_pytorch.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/layumi/Person_reID_baseline_pytorch/context:python)
-[![Build Status](https://travis-ci.org/layumi/Person_reID_baseline_pytorch.svg?branch=master)](https://travis-ci.org/layumi/Person_reID_baseline_pytorch)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/layumi/Person_reID_baseline_pytorch.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/layumi/Person_reID_baseline_pytorch/alerts/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
 
 A tiny, friendly, strong baseline code for Object-reID (based on [pytorch](https://pytorch.org)) since 2017.
 
@@ -16,11 +13,6 @@ A tiny, friendly, strong baseline code for Object-reID (based on [pytorch](https
 Besides, if you are new to object re-ID, you may check out our **[Tutorial](https://github.com/layumi/Person_reID_baseline_pytorch/tree/master/tutorial)** first (8 min read) :+1: .
 ![](https://github.com/layumi/Person_reID_baseline_pytorch/blob/master/show.png)
 ![](https://github.com/layumi/Person_reID_baseline_pytorch/blob/master/show-cub.jpg)
-
-## Tutorial
-* [8 min Tutorial](https://github.com/layumi/Person_reID_baseline_pytorch/blob/master/tutorial/README.md)，[8分钟教程](https://zhuanlan.zhihu.com/p/50387521)
-* [中文视频简介](https://www.bilibili.com/video/BV11K4y1f7eQ)
-* [Answer to Tutorial](https://github.com/layumi/Person_reID_baseline_pytorch/blob/master/tutorial/Answers_to_Quick_Questions.md)
 
 ## Table of contents
 * [Features](#features)
@@ -61,52 +53,6 @@ P.S. With similar structure, we arrived **Rank@1=87.74% mAP=69.46%** with [Matco
 You may refer to [Here](https://github.com/layumi/Person_reID_baseline_matconvnet).
 Different framework need to be tuned in a different way.
 
-## Some News
-
-<details>
- <summary><b>
-  2022 News
-</b></summary>
-   
-**1 Feb 2022** Speed up the inference process about 10 seconds by removing the ``cat`` function in ``test.py``. 
-   
-**1 Feb 2022** Add the demo with ``TensorRT`` (The fast inference speed may depend on the GPU with the latest RT Core).
-   
-</details>   
-
-<details>
- <summary><b>
-  2021 News
- </b></summary>
-
-**30 Dec 2021** We add supports for new losses, including arcface loss, cosface loss and instance loss. The hyper-parameters are still tunning.
-   
-**3 Dec 2021** We add supports for four losses, including triplet loss, contrastive loss, sphere loss and lifted loss. The hyper-parameters are still tunning.
-   
-**1 Dec 2021** We support EfficientNet/HRNet.
-   
-**15 Sep 2021** We support ResNet-ibn from ECCV2018 (https://github.com/XingangPan/IBN-Net). 
-
-**17 Aug 2021** We support running code on Google Colab with free GPU. Please check it out at https://github.com/layumi/Person_reID_baseline_pytorch/tree/master/colab .
-
-**14 Aug 2021** We have supported the training with [DG-Market](https://github.com/NVlabs/DG-Net#dg-market) for regularization via [Self-supervised Memory Learning](https://www.ijcai.org/proceedings/2020/150). You only neeed to download/unzip the dataset and add `--DG` to train model. 
-
-**12 Aug 2021** We have supported the transformer-based model `Swin` by `--use_swin`. The basic performance is 92.73% Rank@1 and 79.71%mAP.
-
-**23 Jun 2021** Attack your re-ID model via Query! They are not robust as you expected! Check the code at [Here](https://github.com/layumi/A_reID).
-
-**5 Feb 2021** We have supported [Circle loss](https://arxiv.org/abs/2002.10857)(CVPR20 Oral). You can try it by simply adding `--circle`.  
-
-**11 January 2021** On the Market-1501 dataset, we accelerate the re-ranking processing from **89.2s** to **9.4ms** with one K40m GPU, facilitating the real-time post-processing. The pytorch implementation can be found in [GPU-Re-Ranking](GPU-Re-Ranking/).
-
-</details>
-
-<details>
- <summary><b>
-  2020 News
- </b></summary>
-   
-**11 June 2020** People live in the 3D world. We release one new person re-id code [Person Re-identification in the 3D Space](https://github.com/layumi/person-reid-3d), which conduct representation learning in the 3D space. You are welcomed to check out it.
 
 <img width="250" height="150" src="https://github.com/layumi/Person_reID_baseline_pytorch/blob/master/pdf/3D-demo.png"/>
 
@@ -150,32 +96,7 @@ python test.py
 python demo.py --query_index 777
 ```
 
-**What's new:** Multiple-query Evaluation is added. The multiple-query result is about **Rank@1=91.95% mAP=78.06%**. 
-```bash
-python prepare.py
-python train.py
-python test.py --multi
-python evaluate_gpu.py
-```
 
-**What's new:**  [PCB](https://arxiv.org/abs/1711.09349) is added. You may use '--PCB' to use this model. It can achieve around **Rank@1=92.73% mAP=78.16%**. I used a GPU (P40) with 24GB Memory. You may try apply smaller batchsize and choose the smaller learning rate (for stability) to run. (For example, `--batchsize 32 --lr 0.01 --PCB`)
-```bash
-python train.py --PCB --batchsize 64 --name PCB-64
-python test.py --PCB --name PCB-64
-```
-
-**What's new:** You may try `evaluate_gpu.py` to conduct a faster evaluation with GPU.
-
-**What's new:** You may apply '--use_dense' to use `DenseNet-121`. It can arrive around Rank@1=89.91% mAP=73.58%. 
-
-**What's new:** Re-ranking is added to evaluation. The re-ranked result is about **Rank@1=90.20% mAP=84.76%**.
-
-**What's new:** Random Erasing is added to train.
-
-**What's new:** I add some code to generate training curves. The figure will be saved into the model folder when training.
-
-![](https://github.com/layumi/Person_reID_baseline_pytorch/blob/master/train.jpg)
- </details>
    
 ## Trained Model
 I re-trained several models, and the results may be different with the original one. Just for a quick reference, you may directly use these models. 
@@ -390,10 +311,3 @@ Basic Model
 }
 ```
 
-## Related Repos
-1. [Pedestrian Alignment Network](https://github.com/layumi/Pedestrian_Alignment) ![GitHub stars](https://img.shields.io/github/stars/layumi/Pedestrian_Alignment.svg?style=flat&label=Star)
-2. [2stream Person re-ID](https://github.com/layumi/2016_person_re-ID) ![GitHub stars](https://img.shields.io/github/stars/layumi/2016_person_re-ID.svg?style=flat&label=Star)
-3. [Pedestrian GAN](https://github.com/layumi/Person-reID_GAN) ![GitHub stars](https://img.shields.io/github/stars/layumi/Person-reID_GAN.svg?style=flat&label=Star)
-4. [Language Person Search](https://github.com/layumi/Image-Text-Embedding) ![GitHub stars](https://img.shields.io/github/stars/layumi/Image-Text-Embedding.svg?style=flat&label=Star)
-5. [DG-Net](https://github.com/NVlabs/DG-Net) ![GitHub stars](https://img.shields.io/github/stars/NVlabs/DG-Net.svg?style=flat&label=Star)
-6. [3D Person re-ID](https://github.com/layumi/person-reid-3d) ![GitHub stars](https://img.shields.io/github/stars/layumi/person-reid-3d.svg?style=flat&label=Star)
